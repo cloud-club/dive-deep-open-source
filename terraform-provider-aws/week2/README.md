@@ -1,10 +1,17 @@
-# 1. 개발 환경 구축하기 
+# Development Environment Setup
 
+## Environment
 - EC2 Instance
   - Type: t3.2xlarge (8vCPU, 32GiB)
   - Storage: 30GiB
 
-## 설치 
+## Requirements 
+- Terraform 0.12.26+ (to run acceptance tests)
+- Go 1.23+ (to build the provider plugin)
+- Mac, Linux or WSL (to build the provider plugin)
+
+### Shell script for installing requirements
+
 ```
 #!/bin/bash
 
@@ -52,11 +59,6 @@ export PATH=$PATH:/usr/local/go/bin
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 
-# Add to .bashrc if not already present
-grep -qxF 'export PATH=$PATH:/usr/local/go/bin' ~/.bashrc || echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bashrc
-grep -qxF 'export GOPATH=$HOME/go' ~/.bashrc || echo 'export GOPATH=$HOME/go' >> ~/.bashrc
-grep -qxF 'export PATH=$PATH:$GOPATH/bin' ~/.bashrc || echo 'export PATH=$PATH:$GOPATH/bin' >> ~/.bashrc
-
 # Create basic Go workspace directories
 mkdir -p $HOME/go/{bin,src,pkg}
 
@@ -86,26 +88,66 @@ echo "Or logout and login again"
 ```
 
 ```
-vi init.sh
-chmod +x  init.sh 
-./init.sh
+$ vi init.sh
+$ chmod +x  init.sh 
+$ ./init.sh
 ```
 
-## 모듈 다운로드
+## Create the directory and clone the repository
 
 ```
-mkdir -p $HOME/development/hashicorp/; cd $HOME/development/hashicorp/
-git clone https://github.com/hashicorp/terraform-provider-aws.git
-cd terraform-provider-aws
-make tools 
+$ mkdir -p $HOME/development/hashicorp/; cd $HOME/development/hashicorp/
+$ git clone https://github.com/hashicorp/terraform-provider-aws.git
+$ cd terraform-provider-aws
 ```
 
-## 빌드 및 Terraform 설정 
+## Install the tools
 
 ```
-make build
+$ make tools 
 ```
 
+- [GNUmakefile](https://github.com/hashicorp/terraform-provider-aws/blob/main/GNUmakefile)
+
+```
+tools: prereq-go ## Install tools
+	@echo "make: Installing tools..."
+	cd .ci/providerlint && $(GO_VER) install .
+	cd .ci/tools && $(GO_VER) install github.com/YakDriver/tfproviderdocs
+	cd .ci/tools && $(GO_VER) install github.com/client9/misspell/cmd/misspell
+	cd .ci/tools && $(GO_VER) install github.com/golangci/golangci-lint/v2/cmd/golangci-lint
+	cd .ci/tools && $(GO_VER) install github.com/hashicorp/copywrite
+	cd .ci/tools && $(GO_VER) install github.com/hashicorp/go-changelog/cmd/changelog-build
+	cd .ci/tools && $(GO_VER) install github.com/katbyte/terrafmt
+	cd .ci/tools && $(GO_VER) install github.com/pavius/impi/cmd/impi
+	cd .ci/tools && $(GO_VER) install github.com/rhysd/actionlint/cmd/actionlint
+	cd .ci/tools && $(GO_VER) install github.com/terraform-linters/tflint
+	cd .ci/tools && $(GO_VER) install mvdan.cc/gofumpt
+```
+
+- modify the GO_VER
+```
+# GO_VER                       ?= $(shell echo go`cat .go-version | xargs`)
+GO_VER                       ?= go
+```
+
+## Build the Provider
+
+```
+$ make build
+```
+
+- [GNUmakefile](https://github.com/hashicorp/terraform-provider-aws/blob/main/GNUmakefile)
+
+```
+build: prereq-go fmt-check ## Build provider
+	@echo "make: Building provider..."
+	@$(GO_VER) install
+```
+
+## Test the local provider with Terraform
+
+### Create the main.tf and ~/.terraformrc files
 - main.tf
 ```
 terraform {
@@ -136,4 +178,67 @@ provider_installation {
   }
   direct {}
 }
+```
+### Check the the provider binary built
+
+```sh
+$ ls -la $GOPATH/bin/terraform-provider-aws
+
+-rwxr-xr-x. 1 ec2-user ec2-user 1014610856 May 18 14:48 /home/ec2-user/go/bin/terraform-provider-aws
+```
+
+### Run terraform apply without terraform init
+
+```
+$ terraform apply
+
+╷
+│ Warning: Provider development overrides are in effect
+│ 
+│ The following provider development overrides are set in the CLI configuration:
+│  - hashicorp/aws in /home/ec2-user/go/bin
+│ 
+│ The behavior may therefore not match any released version of the provider and applying changes may cause the
+│ state to become incompatible with published releases.
+╵
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with
+the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # aws_vpc.example will be created
+  + resource "aws_vpc" "example" {
+      + arn                                  = (known after apply)
+      + cidr_block                           = "10.0.0.0/16"
+      + default_network_acl_id               = (known after apply)
+      + default_route_table_id               = (known after apply)
+      + default_security_group_id            = (known after apply)
+      + dhcp_options_id                      = (known after apply)
+      + enable_dns_hostnames                 = (known after apply)
+      + enable_dns_support                   = true
+      + enable_network_address_usage_metrics = (known after apply)
+      + id                                   = (known after apply)
+      + instance_tenancy                     = "default"
+      + ipv6_association_id                  = (known after apply)
+      + ipv6_cidr_block                      = (known after apply)
+      + ipv6_cidr_block_network_border_group = (known after apply)
+      + main_route_table_id                  = (known after apply)
+      + owner_id                             = (known after apply)
+      + tags_all                             = (known after apply)
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+aws_vpc.example: Creating...
+aws_vpc.example: Creation complete after 1s [id=vpc-0a010d1daf07cc3da]
+
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 ```
