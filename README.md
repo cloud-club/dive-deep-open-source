@@ -16,9 +16,9 @@ GitHub에서 언젠가 Star만 눌러둔 프로젝트, 하나쯤 있으실 거�
 
 
 ## 👥 Members
-| ![](https://github.com/yourzinc.png) | ![](https://github.com/97tkddnjs.png) | ![](https://github.com/.png) | ![](https://github.com/YelynnOh.png) | ![](https://github.com/kweonsikyung.png) | ![](https://github.com/kiku99.png) | ![](https://github.com/jang-namu.png) | ![](https://github.com/yucori.png) | ![](https://github.com/falconlee236.png) |   
+| ![](https://github.com/yourzinc.png) | ![](https://github.com/97tkddnjs.png) | ![](https://github.com/eu2525.png) | ![](https://github.com/YelynnOh.png) | ![](https://github.com/kweonsikyung.png) | ![](https://github.com/kiku99.png) | ![](https://github.com/jang-namu.png) | ![](https://github.com/yucori.png) | ![](https://github.com/falconlee236.png) |   
 |:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
-| [김아연](https://github.com/yourzinc) | [이상원](https://github.com/97tkddnjs) | [한상진](https://github.com/) | [오예린](https://github.com/YelynnOh) | [권시경](https://github.com/kweonsikyung) | [김재현](https://github.com/kiku99) | [장철희](https://github.com/jang-namu) | [장지원](https://github.com/yucori) | [이상윤](https://github.com/falconlee236) |
+| [김아연](https://github.com/yourzinc) | [이상원](https://github.com/97tkddnjs) | [한상진](https://github.com/eu2525) | [오예린](https://github.com/YelynnOh) | [권시경](https://github.com/kweonsikyung) | [김재현](https://github.com/kiku99) | [장철희](https://github.com/jang-namu) | [장지원](https://github.com/yucori) | [이상윤](https://github.com/falconlee236) |
 
 ## 📚 Curriculum
 | 주차               | 날짜      | 내용                             | 
