@@ -1,8 +1,9 @@
+
 # Take a issue 
 
 - [#42400 aws_pipes_pipe resource does not support target Timestream for Live Analytics](https://github.com/hashicorp/terraform-provider-aws/issues/42400)
 
-# Example terraform code - target configuration
+## Example terraform code - target configuration
 
 [1] Target - CloudWatch log group
 ```
@@ -71,11 +72,11 @@ resource "aws_pipes_pipe" "example" {
 }
 ```
 
-# Code
+## Code
 - [target_parameters.go](https://github.com/hashicorp/terraform-provider-aws/blob/main/internal/service/pipes/target_parameters.go)
 - [pipe_test.go](https://github.com/hashicorp/terraform-provider-aws/blob/main/internal/service/pipes/pipe_test.go)
 
-# References
+## API References - AWS SDK for Go v2
 
 - [CreatePipe](https://pkg.go.dev/github.com/aws/aws-sdk-go-v2/service/pipes#Client.CreatePipe)
 - [PipeTargetParameters](https://pkg.go.dev/github.com/aws/aws-sdk-go-v2/service/pipes@v1.19.3/types#PipeTargetParameters)
