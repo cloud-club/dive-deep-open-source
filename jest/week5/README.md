@@ -17,7 +17,7 @@
   - 또는 새로운 옵션 -T를 도입하여 순수 문자열 비교용으로 사용<br/>
     `예: jest -T "should handle errors (edge cases)"`
 
-### 2. 구현
+### 2. 구현 과정
 
 > 새로운 옵션 -T를 추가하려 했지만! 아래 플로우 상 기존 옵션 -t에 정규식 처리 여부만 분기해도 될 것 같아서, 문자열 리터럴을 나타내는 프리픽스를 처리하는 방식으로 결정!
 
@@ -74,6 +74,35 @@
 5. 로컬 테스트 완료!
 
 - <img width="769" alt="Image" src="https://github.com/user-attachments/assets/f43cba11-373c-4432-bcab-030f9905be65" />
+
+### 정리
+
+1. 문제
+
+- 현재 Jest의 -t 옵션은 테스트 이름을 정규식(Regex) 으로 처리하여 필터링 함.
+- 따라서, 테스트 이름에 (, ), \* 같은 특수문자가 포함되어 있으면 정규식 문법에 따라 작동하게 됨.
+
+  ```js
+  test("check value (important)", () => {
+    expect(true).toBe(true);
+  });
+  ```
+
+  ```bash
+  node ./jest.js -t "check value (important)" // ()를 정규식의 캡처 그룹으로 인식하여, 일치하는 테스트가 없다고 판단해 실행되지 않음.
+  node ./jest.js -t "check value \\(important\\)" // 따라서 매번 escape 해줘야 함.
+  ```
+
+2. 해결
+
+- 프리픽스를 추가해, text:를 사용하면 정규식이 아닌 일반 문자열로 인식하여 필터링하도록 수정.
+  ```bash
+  node ./jest.js -t "text:check value (important)" //문자열 순수 비교로 테스트 실행 됨.
+  ```
+
+3. 고민
+
+- 정규식 인식 피하겠다고 추가한 프리픽스 `text:`가 예약어처럼 인식되면 또 새로운 문제를 야기할 것 같아서, 대안을 찾는 중
 
 ## What will we do next week?
 
