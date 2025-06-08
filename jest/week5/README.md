@@ -72,7 +72,8 @@
   ```
 
 5. 로컬 테스트 완료!
-   <img width="769" alt="Image" src="https://github.com/user-attachments/assets/f43cba11-373c-4432-bcab-030f9905be65" />
+
+- <img width="769" alt="Image" src="https://github.com/user-attachments/assets/f43cba11-373c-4432-bcab-030f9905be65" />
 
 ## What will we do next week?
 
