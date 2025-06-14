@@ -23,4 +23,5 @@ continue dev 를 탐구해볼까 하는 생각이 조금 있네요 (하지만 �
 https://github.com/continuedev/continue/issues
 
 
-의외로 최근... lang chain을 직접 쓰다 보니 핫한 langchain 에 기여해볼 수 있지 않을까 싶은 생각이 드네요 중구 난방의 오픈 소스...기여기... 
+의외로 최근... lang chain을 직접 쓰다 보니 핫한 langchain 에 기여해볼 수 있지 않을까 싶은 생각이 드네요 중구 난방의 오픈 소스...기여기...
+
