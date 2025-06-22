@@ -6,3 +6,8 @@
 그래도 안되면 다른 오픈소스 관심있는거 있는데 그거라도 빠르게 PR 올려보겠습니다
 
 https://github.com/modelcontextprotocol/inspector
+
+
+19:54 요청 성공했습니다 이제 GPU 서버 접근 가능  
+![image](https://github.com/user-attachments/assets/1da402ef-5b63-4e3d-a524-7522fa49f639)
+
